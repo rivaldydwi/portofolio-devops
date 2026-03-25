@@ -1,26 +1,57 @@
-# DevOps Portfolio – Rivaldy Dwi
+# 🚀 DevOps Portfolio – Rivaldy Dwi
 
-This is my DevOps portfolio website deployed using GitHub Pages.
+This is my personal portfolio project demonstrating my journey transitioning into a Cloud & DevOps Engineer.
 
-## Tech Stack
+## 🌐 Live Demo
 
-- HTML
-- CSS
-- Git
-- GitHub Pages
+* GitHub Pages: https://rivaldydwi.github.io/portofolio-devops/
 
-## Live Website
+## 🧰 Tech Stack
 
-https://rivaldydwi.github.io/portofolio-devops/
+* HTML, CSS
+* Git & GitHub
+* Docker
+* Nginx
+* AWS EC2 (for deployment)
 
-## Future Improvements
+## 🐳 Docker Usage
 
-- Docker containerization
-- CI/CD pipeline
-- Cloud deployment
+Build image:
 
-## Run with Docker
+```
+docker build -t portofolio-devops .
+```
 
-docker build -t devops-portfolio .
+Run container:
 
-docker run -p 8080:80 devops-portfolio
+```
+docker run -d -p 8080:80 portofolio-devops
+```
+
+Access in browser:
+
+```
+http://localhost:8080
+```
+
+## ⚙️ DevOps Workflow
+
+```
+Code → GitHub → Docker → Docker Hub → AWS EC2
+```
+
+## 📌 Features
+
+* Responsive portfolio website
+* Dockerized application
+* Deployable to cloud environment
+
+## 🚧 Future Improvements
+
+* CI/CD pipeline using GitHub Actions
+* Automatic deployment to AWS
+* Custom domain & HTTPS
+
+## 👨‍💻 Author
+
+Rivaldy Dwi
