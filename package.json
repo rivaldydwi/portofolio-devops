@@ -4,7 +4,7 @@
   "description": "This is my personal portfolio project demonstrating my journey transitioning into a Cloud & DevOps Engineer.",
   "main": "script.js",
   "scripts": {
-    "lint": "htmlhint *.html"
+    "lint": "npx htmlhint *.html"
   },
   "repository": {
     "type": "git",
