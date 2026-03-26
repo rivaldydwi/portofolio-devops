@@ -44,3 +44,18 @@ jobs:
             sudo docker rm $(sudo docker ps -aq) || true
             sudo docker pull rivaldydwi/portofolio-devops:latest
             sudo docker run -d -p 80:80 rivaldydwi/portofolio-devops:latest
+
+      - name: Notify Slack (Success)
+        if: success()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"✅ Deploy SUCCESS: Portofolio-devops updated!"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify Slack (Failure)
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"❌ Deploy FAILED: Check GitHub Actions!"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
