@@ -24,6 +24,9 @@ jobs:
       - name: Run lint
         run: npx htmlhint *.html
 
+      - name: Build project
+        run: npm run build
+
       - name: Build Docker image
         run: docker build -t rivaldydwi/portofolio-devops .
 

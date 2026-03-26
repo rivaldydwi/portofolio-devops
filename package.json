@@ -4,7 +4,9 @@
   "description": "This is my personal portfolio project demonstrating my journey transitioning into a Cloud & DevOps Engineer.",
   "main": "script.js",
   "scripts": {
-    "lint": "htmlhint *.html"
+    "lint": "htmlhint *.html",
+    "test": "npx jest",
+    "build": "npx html-minifier-terser index.html -o dist/index.html --collapse-whitespace --remove-comments"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,8 @@
   },
   "homepage": "https://github.com/rivaldydwi/portofolio-devops#readme",
   "devDependencies": {
-    "htmlhint": "^1.9.2"
+    "html-minifier-terser": "^7.2.0",
+    "htmlhint": "^1.9.2",
+    "jest": "^30.3.0"
   }
 }
