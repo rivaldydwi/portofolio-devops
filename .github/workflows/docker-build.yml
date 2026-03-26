@@ -18,8 +18,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Fix permissions
+        run: chmod +x ./node_modules/.bin/*
+
       - name: Run lint
-        run: npm run lint
+        run: npx htmlhint *.html
 
       - name: Build Docker image
         run: docker build -t rivaldydwi/portofolio-devops .
