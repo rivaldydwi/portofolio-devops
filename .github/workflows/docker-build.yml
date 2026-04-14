@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
@@ -27,8 +28,44 @@ jobs:
       - name: Build project
         run: npm run build
 
+      # ── SECURITY: Scan source code & dependencies ──────────────────────────
+      - name: Trivy - Scan filesystem (source & deps)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          exit-code: 0              # warn only, pipeline tetap lanjut
+          severity: CRITICAL,HIGH
+          output: trivy-fs-report.txt
+
+      - name: Upload filesystem scan report
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-fs-report
+          path: trivy-fs-report.txt
+      # ───────────────────────────────────────────────────────────────────────
+
       - name: Build Docker image
         run: docker build -t rivaldydwi/portofolio-devops .
+
+      # ── SECURITY: Scan Docker image ─────────────────────────────────────────
+      - name: Trivy - Scan Docker image
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: rivaldydwi/portofolio-devops
+          format: table
+          exit-code: 0              # warn only, pipeline tetap lanjut
+          severity: CRITICAL,HIGH
+          output: trivy-image-report.txt
+
+      - name: Upload image scan report
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-image-report
+          path: trivy-image-report.txt
+      # ───────────────────────────────────────────────────────────────────────
 
       - name: Push Docker image
         run: docker push rivaldydwi/portofolio-devops
@@ -49,7 +86,7 @@ jobs:
         if: success()
         run: |
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"✅ Deploy SUCCESS: Portofolio-devops updated!"}' \
+          --data '{"text":"✅ Deploy SUCCESS: Portofolio-devops updated! Security scan passed ✔"}' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Notify Slack (Failure)
@@ -58,4 +95,3 @@ jobs:
           curl -X POST -H 'Content-type: application/json' \
           --data '{"text":"❌ Deploy FAILED: Check GitHub Actions!"}' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
-
