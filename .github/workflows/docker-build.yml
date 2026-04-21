@@ -87,7 +87,8 @@ jobs:
             sudo docker stop portofolio || true
             sudo docker rm portofolio || true
             sudo docker pull rivaldydwi/portofolio-devops:latest
-            sudo docker run -d -p 8080:80 --name portofolio rivaldydwi/portofolio-devops:latest
+            sudo docker rmi $(sudo docker images rivaldydwi/portofolio-devops -q) 2>/dev/null || true
+            sudo docker run -d --pull always -p 8080:80 --name portofolio rivaldydwi/portofolio-devops:latest
 
       - name: Notify Slack (Success)
         if: success()
