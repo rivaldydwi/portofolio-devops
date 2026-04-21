@@ -1,4 +1,4 @@
-name: Deploy to AWS
+name: Deploy to Local Server
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
           scan-type: fs
           scan-ref: .
           format: table
-          exit-code: 0              # warn only, pipeline tetap lanjut
+          exit-code: 0
           severity: CRITICAL,HIGH
           output: trivy-fs-report.txt
 
@@ -56,7 +56,7 @@ jobs:
           scan-type: image
           image-ref: rivaldydwi/portofolio-devops
           format: table
-          exit-code: 0              # warn only, pipeline tetap lanjut
+          exit-code: 0
           severity: CRITICAL,HIGH
           output: trivy-image-report.txt
 
@@ -70,23 +70,30 @@ jobs:
       - name: Push Docker image
         run: docker push rivaldydwi/portofolio-devops
 
-      - name: Deploy to EC2
+      # ── TAILSCALE: Connect runner ke network lokal ─────────────────────────
+      - name: Connect Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+      # ───────────────────────────────────────────────────────────────────────
+
+      - name: Deploy to Local Server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ secrets.LOCAL_HOST }}
+          username: ${{ secrets.LOCAL_USER }}
+          key: ${{ secrets.LOCAL_SSH_KEY }}
           script: |
-            sudo docker stop $(sudo docker ps -q) || true
-            sudo docker rm $(sudo docker ps -aq) || true
+            sudo docker stop portofolio || true
+            sudo docker rm portofolio || true
             sudo docker pull rivaldydwi/portofolio-devops:latest
-            sudo docker run -d -p 80:80 rivaldydwi/portofolio-devops:latest
+            sudo docker run -d -p 8080:80 --name portofolio rivaldydwi/portofolio-devops:latest
 
       - name: Notify Slack (Success)
         if: success()
         run: |
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"✅ Deploy SUCCESS: Portofolio-devops updated! Security scan passed ✔"}' \
+          --data '{"text":"✅ Deploy SUCCESS: Portofolio-devops updated on local server!"}' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Notify Slack (Failure)
