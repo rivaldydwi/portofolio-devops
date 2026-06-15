@@ -77,6 +77,25 @@ jobs:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
       # ───────────────────────────────────────────────────────────────────────
 
+      # ── TERRAFORM: Provision container via IaC ─────────────────────────────
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./terraform
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: ./terraform
+
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: ./terraform
+        env:
+          TF_VAR_docker_image: "rivaldydwi/portofolio-devops:latest"
+      # ───────────────────────────────────────────────────────────────────────
+
       - name: Deploy to Local Server
         uses: appleboy/ssh-action@master
         with:
@@ -84,17 +103,16 @@ jobs:
           username: ${{ secrets.LOCAL_USER }}
           key: ${{ secrets.LOCAL_SSH_KEY }}
           script: |
-            sudo docker stop portofolio || true
-            sudo docker rm portofolio || true
-            sudo docker pull rivaldydwi/portofolio-devops:latest
-            sudo docker rmi $(sudo docker images rivaldydwi/portofolio-devops -q) 2>/dev/null || true
-            sudo docker run -d --pull always -p 8080:80 --name portofolio rivaldydwi/portofolio-devops:latest
+            cd ~/portofolio-devops/terraform
+            terraform init
+            terraform apply -auto-approve \
+              -var="docker_image=rivaldydwi/portofolio-devops:latest"
 
       - name: Notify Slack (Success)
         if: success()
         run: |
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"✅ Deploy SUCCESS: Portofolio-devops updated on local server!"}' \
+          --data '{"text":"✅ Deploy SUCCESS: Portofolio-devops updated on local server via Terraform!"}' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Notify Slack (Failure)
