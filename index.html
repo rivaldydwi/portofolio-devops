@@ -431,16 +431,19 @@
         <div class="journey-item">
           <div class="journey-phase current">PHASE 03<br/>NOW</div>
           <div>
-            <div class="journey-title">Added IaC with Terraform</div>
+            <div class="journey-title">Added IaC + Monitoring</div>
             <div class="journey-desc">
               Replaced manual <code style="font-family:var(--mono);font-size:12px;color:var(--accent)">docker run</code> commands with Terraform.
               Infrastructure is now version-controlled, consistent on every deploy, and smart enough
-              to skip restarts when nothing has changed. Also added Trivy scanning at two checkpoints.
+              to skip restarts when nothing has changed. Added Trivy scanning at two checkpoints,
+              and set up real-time server monitoring with Prometheus + Grafana + Node Exporter.
             </div>
             <div class="journey-tags">
               <span class="tag green">Terraform</span>
               <span class="tag green">Trivy</span>
               <span class="tag green">IaC</span>
+              <span class="tag green">Prometheus</span>
+              <span class="tag green">Grafana</span>
               <span class="tag">Docker Hub</span>
               <span class="tag">Slack Notify</span>
             </div>
@@ -518,6 +521,16 @@
             <span class="skill-item">GCP</span>
           </div>
         </div>
+        <div class="skill-card">
+          <div class="skill-icon">📊</div>
+          <div class="skill-name">Monitoring</div>
+          <div class="skill-list">
+            <span class="skill-item">Prometheus</span>
+            <span class="skill-item">Grafana</span>
+            <span class="skill-item">Node Exporter</span>
+            <span class="skill-item">Alerting</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -540,7 +553,7 @@
             A production-grade CI/CD pipeline built from scratch and evolved over three phases —
             from AWS EC2 to a self-hosted Mini PC, now fully managed with Terraform IaC.
             Every push triggers automated linting, dual-layer security scanning, Docker build,
-            and infrastructure deployment via Tailscale VPN.
+            and infrastructure deployment via Tailscale VPN. Real-time monitoring via Prometheus + Grafana.
           </p>
           <div class="project-stats">
             <div class="stat">
@@ -555,10 +568,16 @@
               <span class="stat-value">IaC</span>
               <span class="stat-label">Terraform managed</span>
             </div>
+            <div class="stat">
+              <span class="stat-value">📊</span>
+              <span class="stat-label">Live Grafana dashboard</span>
+            </div>
           </div>
           <div class="journey-tags">
             <span class="tag green">Terraform</span>
             <span class="tag green">Trivy</span>
+            <span class="tag green">Prometheus</span>
+            <span class="tag green">Grafana</span>
             <span class="tag">GitHub Actions</span>
             <span class="tag">Docker</span>
             <span class="tag">Tailscale</span>
@@ -650,7 +669,7 @@
   <div class="container">
     <footer>
       <span class="footer-left">© 2026 Rivaldy Dwi Satria</span>
-      <span class="footer-right">Built with <span>Terraform + Docker + GitHub Actions</span></span>
+      <span class="footer-right">Built with <span>Terraform + Docker + Prometheus + GitHub Actions</span></span>
     </footer>
   </div>
 
