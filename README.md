@@ -35,6 +35,7 @@ This one is different — it documents a **real evolution** of a pipeline:
 | IaC | Terraform + Docker Provider |
 | Networking | Tailscale VPN |
 | Deployment | Self-hosted Mini PC (On-premise) |
+| Monitoring | Prometheus + Grafana + Node Exporter |
 | Notification | Slack Webhook |
 
 ---
@@ -151,11 +152,31 @@ Open in browser: `http://localhost:8080`
 
 ---
 
+## 📊 Monitoring Stack
+
+Real-time infrastructure monitoring is running on the Mini PC via Docker Compose:
+
+```
+monitoring/
+├── docker-compose.yml      # Prometheus + Grafana + Node Exporter
+└── prometheus/
+    └── prometheus.yml      # Scrape config
+```
+
+| Service | Port | Role |
+|---------|------|------|
+| Prometheus | 9090 | Metrics collection & storage |
+| Grafana | 3000 | Visualization & dashboards |
+| Node Exporter | 9100 | System metrics (CPU, RAM, disk, network) |
+
+**Dashboard:** Node Exporter Full (Grafana ID: 1860) — showing live CPU, memory, disk usage, uptime, and network I/O of the server.
+
+---
+
 ## 🚧 Upcoming Improvements
 
 - [ ] HTTPS with reverse proxy (Nginx / Traefik + Let's Encrypt)
 - [ ] Custom domain setup
-- [ ] Monitoring with Prometheus + Grafana
 - [ ] Multi-environment support (staging & production)
 - [ ] Container orchestration with Docker Compose or Kubernetes
 
