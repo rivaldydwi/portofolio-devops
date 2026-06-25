@@ -1,7 +1,7 @@
 # 🚀 DevOps Portfolio – Rivaldy Dwi
 
 > A professional transitioning seriously into DevOps Engineering.
-> This repo isn't just a portfolio — it's proof of a real journey: from expensive manual deployments on AWS, to a self-hosted server, to infrastructure fully managed as code.
+> This repo isn't just a portfolio, it's proof of a real journey: from expensive manual deployments on AWS, to a self-hosted server, to infrastructure fully managed as code.
 
 ---
 
@@ -20,7 +20,8 @@ This one is different — it documents a **real evolution** of a pipeline:
 |-------|-------|----------------|
 | 🔴 Phase 1 | GitHub Actions → Docker → **AWS EC2** | Got started, but cloud costs were piling up |
 | 🟡 Phase 2 | GitHub Actions → Docker → **Tailscale → Mini PC** | Cut costs with self-hosted, but deploy was still manual |
-| 🟢 Phase 3 (now) | GitHub Actions → Docker → Tailscale → **Terraform → Mini PC** | Full IaC — consistent, documented, automated |
+| 🟢 Phase 3 | GitHub Actions → Docker → Tailscale → **Terraform → Mini PC** | Full IaC — consistent, documented, automated |
+| 🚀 Phase 4 (now) | GitHub Actions → **k3s (Kubernetes)** → Tailscale → Mini PC | Container orchestration — production-grade workload management |
 
 ---
 
@@ -35,6 +36,7 @@ This one is different — it documents a **real evolution** of a pipeline:
 | IaC | Terraform + Docker Provider |
 | Networking | Tailscale VPN |
 | Deployment | Self-hosted Mini PC (On-premise) |
+| Orchestration | k3s (Kubernetes) |
 | Monitoring | Prometheus + Grafana + Node Exporter |
 | Notification | Slack Webhook |
 
@@ -152,7 +154,7 @@ Open in browser: `http://localhost:8080`
 
 ---
 
-## 📊 Monitoring Stack
+## 📊 Monitoring Stack (Docker Compose)
 
 Real-time infrastructure monitoring is running on the Mini PC via Docker Compose:
 
@@ -173,12 +175,57 @@ monitoring/
 
 ---
 
+## ☸️ Kubernetes Stack (k3s)
+
+The monitoring stack is also deployed via **k3s** (lightweight Kubernetes) — running alongside Docker Compose as a production-grade alternative.
+
+```
+k8s/
+├── namespace.yaml           # Isolated monitoring namespace
+├── prometheus/
+│   ├── configmap.yaml       # Scrape config as K8s ConfigMap
+│   └── deployment.yaml      # Prometheus Deployment + Service
+├── grafana/
+│   └── deployment.yaml      # Grafana Deployment + NodePort Service
+└── node-exporter/
+    └── deployment.yaml      # Node Exporter Deployment + Service
+```
+
+| Resource | Type | Description |
+|----------|------|-------------|
+| `monitoring` | Namespace | Isolated environment for all monitoring workloads |
+| `prometheus` | Deployment + ClusterIP | Metrics collection, scrapes node-exporter |
+| `grafana` | Deployment + NodePort | Dashboard UI, exposed via NodePort |
+| `node-exporter` | Deployment + ClusterIP | System metrics from the host |
+
+**Why k3s?**
+- ✅ Production-grade orchestration vs Docker Compose's simplicity
+- ✅ Auto-restarts and self-healing if a pod crashes
+- ✅ Declarative YAML manifests — full version control
+- ✅ Foundation for multi-node scaling
+
+**Deploy:**
+```bash
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/prometheus/
+kubectl apply -f k8s/grafana/
+kubectl apply -f k8s/node-exporter/
+```
+
+**Verify:**
+```bash
+kubectl get all -n monitoring
+```
+
+---
+
 ## 🚧 Upcoming Improvements
 
 - [ ] HTTPS with reverse proxy (Nginx / Traefik + Let's Encrypt)
 - [ ] Custom domain setup
 - [ ] Multi-environment support (staging & production)
-- [ ] Container orchestration with Docker Compose or Kubernetes
+- [ ] Ansible for configuration management
+- [ ] Log aggregation with Loki
 
 ---
 
