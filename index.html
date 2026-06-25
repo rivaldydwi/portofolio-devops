@@ -257,7 +257,7 @@
       max-width: 560px;
     }
     .project-stats {
-      display: grid; grid-template-columns: repeat(3, 1fr);
+      display: grid; grid-template-columns: repeat(4, 1fr);
       gap: 1px; background: var(--border);
       border: 1px solid var(--border);
       border-radius: 4px; overflow: hidden;
@@ -334,7 +334,7 @@
       .container { padding: 0 20px; }
       .journey-item { grid-template-columns: 1fr; gap: 8px; }
       .exp-item { grid-template-columns: 1fr; gap: 8px; }
-      .project-stats { grid-template-columns: 1fr; }
+      .project-stats { grid-template-columns: repeat(2, 1fr); }
       .contact-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 8px; text-align: center; }
     }
@@ -381,6 +381,8 @@
         <div class="pipe-step"><span class="pipe-label">Docker</span></div>
         <span class="pipe-arrow">→</span>
         <div class="pipe-step"><span class="pipe-label active">Terraform</span></div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step"><span class="pipe-label active">k3s</span></div>
         <span class="pipe-arrow">→</span>
         <div class="pipe-step"><span class="pipe-label">Deploy</span></div>
         <span class="pipe-arrow">→</span>
@@ -429,7 +431,7 @@
         </div>
 
         <div class="journey-item">
-          <div class="journey-phase current">PHASE 03<br/>NOW</div>
+          <div class="journey-phase">PHASE 03<br/>IaC</div>
           <div>
             <div class="journey-title">Added IaC + Monitoring</div>
             <div class="journey-desc">
@@ -446,6 +448,27 @@
               <span class="tag green">Grafana</span>
               <span class="tag">Docker Hub</span>
               <span class="tag">Slack Notify</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="journey-item">
+          <div class="journey-phase current">PHASE 04<br/>NOW</div>
+          <div>
+            <div class="journey-title">Container Orchestration with Kubernetes</div>
+            <div class="journey-desc">
+              Deployed the monitoring stack (Prometheus + Grafana + Node Exporter) onto
+              <code style="font-family:var(--mono);font-size:12px;color:var(--accent)">k3s</code> — a production-grade Kubernetes distribution running on the same Mini PC.
+              Infrastructure is fully declarative via YAML manifests, self-healing, and ready to scale.
+              This sits alongside Docker Compose — demonstrating both approaches for the same workload.
+            </div>
+            <div class="journey-tags">
+              <span class="tag green">k3s</span>
+              <span class="tag green">Kubernetes</span>
+              <span class="tag green">kubectl</span>
+              <span class="tag green">Deployment</span>
+              <span class="tag green">ConfigMap</span>
+              <span class="tag green">NodePort</span>
             </div>
           </div>
         </div>
@@ -467,6 +490,8 @@
             <span class="skill-item">Docker</span>
             <span class="skill-item">GitHub Actions</span>
             <span class="skill-item">Terraform</span>
+            <span class="skill-item">k3s</span>
+            <span class="skill-item">Kubernetes</span>
             <span class="skill-item">Nginx</span>
             <span class="skill-item">CI/CD</span>
           </div>
@@ -550,10 +575,11 @@
         </div>
         <div class="project-body">
           <p class="project-desc">
-            A production-grade CI/CD pipeline built from scratch and evolved over three phases —
-            from AWS EC2 to a self-hosted Mini PC, now fully managed with Terraform IaC.
-            Every push triggers automated linting, dual-layer security scanning, Docker build,
-            and infrastructure deployment via Tailscale VPN. Real-time monitoring via Prometheus + Grafana.
+            A production-grade CI/CD pipeline built from scratch and evolved over four phases —
+            from AWS EC2 to a self-hosted Mini PC, fully managed with Terraform IaC, and now
+            orchestrated with Kubernetes (k3s). Every push triggers automated linting, dual-layer
+            security scanning, Docker build, and infrastructure deployment via Tailscale VPN.
+            Real-time monitoring via Prometheus + Grafana, deployed both via Docker Compose and k3s.
           </p>
           <div class="project-stats">
             <div class="stat">
@@ -569,11 +595,12 @@
               <span class="stat-label">Terraform managed</span>
             </div>
             <div class="stat">
-              <span class="stat-value">📊</span>
-              <span class="stat-label">Live Grafana dashboard</span>
+              <span class="stat-value">☸️</span>
+              <span class="stat-label">k3s orchestrated</span>
             </div>
           </div>
           <div class="journey-tags">
+            <span class="tag green">k3s</span>
             <span class="tag green">Terraform</span>
             <span class="tag green">Trivy</span>
             <span class="tag green">Prometheus</span>
@@ -669,7 +696,7 @@
   <div class="container">
     <footer>
       <span class="footer-left">© 2026 Rivaldy Dwi Satria</span>
-      <span class="footer-right">Built with <span>Terraform + Docker + Prometheus + GitHub Actions</span></span>
+      <span class="footer-right">Built with <span>Terraform + Docker + k3s + Prometheus + GitHub Actions</span></span>
     </footer>
   </div>
 
