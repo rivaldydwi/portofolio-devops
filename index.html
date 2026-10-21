@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0E1317" />
-  <meta name="description" content="6+ years in IT Infrastructure. Now building production-grade CI/CD pipelines, containerized deployments, and infrastructure as code — for real, not just tutorials." />
+  <meta name="description" content="6+ years in IT Infrastructure." />
   <title>Rivaldy Dwi Satria | DevOps Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -88,6 +88,7 @@
       font: 500 13px/1 var(--mono);
       color: var(--on-console);
       text-decoration: none;
+      transition: color 0.15s;
     }
     .nav-links a:hover {
       color: var(--on-console-strong);
@@ -462,8 +463,9 @@
       text-decoration: none;
       overflow-wrap: anywhere;
     }
-    a.contact-value { display: flex; align-items: center; min-height: 44px; }
+    a.contact-value { display: flex; align-items: center; min-height: 44px; transition: color 0.15s; }
     a.contact-value:hover { color: var(--green-text); }
+    a.contact-value:active { color: var(--green-text); transform: translateY(1px); }
     .contact-cell:first-child .contact-value {
       font-size: clamp(17px, 4.6vw, 52px);
       font-weight: 700; letter-spacing: -0.025em; line-height: 1.1;
@@ -536,6 +538,7 @@
       .pipe-step.active::before { background: Highlight; border-color: Highlight; }
       .tag.green::before { background: Highlight; border-color: Highlight; }
       .journey-item.current::before { background: Highlight; border-color: Highlight; }
+      .exp-current .exp-company::before { background: Highlight; border-color: Highlight; }
       .journey-item::before, .journey-item::after { forced-color-adjust: none; }
     }
 
@@ -919,7 +922,7 @@
   <!-- FOOTER -->
   <div class="wrap">
     <footer>
-      <span class="footer-left">© 2026 Rivaldy Dwi Satria</span>
+      <span>© 2026 Rivaldy Dwi Satria</span>
       <span class="footer-right">Built with <span>Terraform + Docker + k3s + Prometheus + GitHub Actions</span></span>
     </footer>
   </div>
