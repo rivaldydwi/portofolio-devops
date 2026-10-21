@@ -1,3 +1,7 @@
 terraform/.terraform/
 terraform/*.tfstate
 terraform/*.tfstate.backup
+node_modules/
+.agents/
+.claude/
+skills-lock.json
