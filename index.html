@@ -66,18 +66,24 @@
       border-bottom: 1px solid var(--ink);
     }
     .nav-in {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 24px; min-height: 56px;
+      display: grid; grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center; column-gap: 20px; min-height: 56px;
     }
     .nav-logo {
+      display: inline-flex; align-items: center; justify-self: start;
+      min-height: 44px;
       font: 600 14px/1 var(--mono);
       color: var(--green-text);
       letter-spacing: 0.02em;
+      text-decoration: none;
       white-space: nowrap;
     }
-    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-logo:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
+    .nav-logo:active { transform: translateY(1px); }
+    .nav-links { display: flex; gap: 4px; list-style: none; }
     .nav-links a {
-      display: block; padding: 8px 0;
+      display: flex; align-items: center;
+      min-height: 44px; padding: 0 10px;
       font: 500 13px/1 var(--mono);
       color: var(--ink-2);
       text-decoration: none;
@@ -86,8 +92,18 @@
       color: var(--ink);
       text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px;
     }
-
     .nav-links a:active { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; transform: translateY(1px); }
+    .nav-cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 0 18px;
+      font: 500 13px/1 var(--mono);
+      background: var(--ink); color: var(--paper);
+      border: 1.5px solid var(--ink); border-radius: 2px;
+      text-decoration: none;
+      transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .nav-cta:hover { background: var(--green-text); border-color: var(--green-text); }
+    .nav-cta:active { background: var(--ink-2); border-color: var(--ink-2); transform: translateY(1px); }
 
     /* ── SECTIONS + LEDGER GRID ── */
     section { padding: 96px 0; border-top: 1px solid var(--ink); }
@@ -130,13 +146,26 @@
       font-weight: 800;
       line-height: 0.95;
       letter-spacing: -0.03em;
-      margin-bottom: 44px;
+      margin-bottom: 24px;
       overflow-wrap: anywhere;
       min-width: 0;
     }
+    .hero-role {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 0;
+      margin-bottom: 32px;
+      font-size: clamp(18px, 2vw, 22px); font-weight: 600;
+      line-height: 1.3; letter-spacing: -0.01em;
+    }
+    .hero-loc {
+      margin-left: 16px; padding-left: 16px;
+      border-left: 1.5px solid var(--ink-3);
+      font: 500 clamp(14px, 1.6vw, 16px)/1.3 var(--mono);
+      letter-spacing: 0;
+      color: var(--ink-2);
+    }
     .hero-row {
       display: grid; grid-template-columns: minmax(0, 1fr) 260px;
-      gap: 32px 64px; align-items: end;
+      gap: 32px 64px; align-items: start;
     }
     .hero-sub {
       font-size: clamp(18px, 2.2vw, 22px);
@@ -158,8 +187,9 @@
     }
     .btn-primary { background: var(--ink); color: var(--paper); }
     .btn-primary:hover { background: var(--green-text); border-color: var(--green-text); }
-    .btn-ghost { background: transparent; color: var(--ink); }
-    .btn-ghost:hover { background: var(--ink); color: var(--paper); }
+    .btn-primary { min-height: 56px; font-weight: 600; }
+    .btn-ghost { background: transparent; color: var(--ink-2); border-color: var(--ink-3); }
+    .btn-ghost:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
     .btn:active { transform: translateY(1px); }
     .btn-primary:active { background: var(--ink-2); border-color: var(--ink-2); }
     .btn-ghost:active { background: var(--ink-2); border-color: var(--ink-2); color: var(--paper); }
@@ -424,12 +454,22 @@
     }
 
     @media (max-width: 600px) {
-      html { scroll-padding-top: 96px; }
+      html { scroll-padding-top: 112px; }
       .wrap { padding: 0 20px; }
-      nav { padding-bottom: 4px; }
-      .nav-in { flex-wrap: wrap; gap: 0 16px; padding-top: 4px; }
-      .nav-logo { flex: 1 0 100%; padding: 12px 0 2px; }
-      .nav-links { gap: 14px; overflow-x: auto; max-width: 100%; }
+      .nav-in {
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas: "logo cta" "links links";
+        column-gap: 12px; padding-top: 4px; min-height: 0;
+      }
+      .nav-logo { grid-area: logo; }
+      .nav-cta { grid-area: cta; }
+      .nav-links {
+        grid-area: links; justify-content: space-between; gap: 0;
+        margin: 4px -6px 0; padding: 2px 0;
+        background: linear-gradient(var(--rule), var(--rule)) top / 100% 1px no-repeat;
+      }
+      .nav-links a { padding: 0 6px; }
+      .hero-loc { flex-basis: 100%; margin-left: 0; padding-left: 0; border-left: 0; }
       section { padding: 64px 0; }
       #hero { padding: 20px 0 56px; }
       .badge { margin-bottom: 40px; font-size: 12px; }
@@ -466,14 +506,14 @@
   <!-- NAV -->
   <nav aria-label="Primary">
     <div class="wrap nav-in">
-      <span class="nav-logo">rivaldy@devops:~$</span>
+      <a href="#top" class="nav-logo">rivaldy@devops:~$</a>
       <ul class="nav-links">
         <li><a href="#journey">Journey</a></li>
         <li><a href="#skills">Stack</a></li>
         <li><a href="#project">Project</a></li>
         <li><a href="#experience">Experience</a></li>
-        <li><a href="#contact">Contact</a></li>
       </ul>
+      <a href="#contact" class="nav-cta">Contact</a>
     </div>
   </nav>
 
@@ -483,14 +523,18 @@
   <section id="hero">
     <div class="wrap">
       <div class="badge">AVAILABLE FOR DEVOPS ROLES</div>
-      <h1>Rivaldy Dwi<br /><span>Satria</span></h1>
+      <h1>Rivaldy Dwi<br />Satria</h1>
+      <p class="hero-role">
+        <span>IT Infrastructure &amp; Network Specialist</span>
+        <span class="hero-loc">Tokyo, Japan</span>
+      </p>
       <div class="hero-row">
         <p class="hero-sub">
           6+ years in IT Infrastructure. Now building production-grade CI/CD pipelines,
           containerized deployments, and infrastructure as code — for real, not just tutorials.
         </p>
         <div class="hero-cta">
-          <a href="#contact" class="btn btn-primary">Get in Touch</a>
+          <a href="mailto:rivaldydwisatria@gmail.com" class="btn btn-primary">Get in Touch</a>
           <a href="#project" class="btn btn-ghost">View Project →</a>
           <a href="https://github.com/rivaldydwi/portofolio-devops" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </div>
